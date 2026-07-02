@@ -43,5 +43,6 @@ export const Cache = {
 // Cache keys
 export const CACHE_KEYS = {
   USER_PROFILE: 'user_profile',
-  TASKS: 'tasks',
+  TEMPLATES: 'templates',
+  WORKOUTS: 'workouts',
 } as const;

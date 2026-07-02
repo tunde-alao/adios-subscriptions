@@ -50,7 +50,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you attach one to a task."
+          "photosPermission": "The app accesses your photos to let you set a profile picture."
         }
       ],
       "expo-build-properties"

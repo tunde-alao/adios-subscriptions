@@ -68,8 +68,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
         throw new Error("Failed to fetch user profile");
       }
       const data = await response.json();
-      setUser(data);
-      Cache.set(CACHE_KEYS.USER_PROFILE, data);
+      const profile: UserProfile = {
+        id: data.id,
+        email: data.email ?? "",
+        fullName: data.fullName,
+        isOnboardingComplete: data.isOnboardingComplete,
+      };
+      setUser(profile);
+      Cache.set(CACHE_KEYS.USER_PROFILE, profile);
     } catch (err) {
       setUserError(err instanceof Error ? err.message : "Failed to fetch user");
     } finally {

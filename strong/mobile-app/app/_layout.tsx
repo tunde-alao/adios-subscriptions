@@ -3,7 +3,10 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { AuthProvider, useAuth } from "../providers/AuthProvider";
-import { TasksProvider } from "../providers/TasksProvider";
+import { TemplatesProvider } from "../providers/TemplatesProvider";
+import { WorkoutsProvider } from "../providers/WorkoutsProvider";
+import { TemplateDraftProvider } from "../providers/TemplateDraftProvider";
+import { WorkoutSessionProvider } from "../providers/WorkoutSessionProvider";
 import ToastManager from "toastify-react-native";
 import { useFonts } from "../hooks/useFonts";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -51,13 +54,28 @@ function RootNavigator() {
       <Stack.Protected guard={isAuthenticated && !needsOnboarding}>
         <Stack.Screen name="(tabs)" options={{ title: "" }} />
         <Stack.Screen
-          name="add-task"
+          name="create-template"
           options={{
-            headerShown: true,
-            title: "New Task",
-            headerStyle: { backgroundColor: "#ffffff" },
-            headerShadowVisible: false,
-            animation: "slide_from_right",
+            headerShown: false,
+            presentation: "modal",
+            animation: "slide_from_bottom",
+          }}
+        />
+        <Stack.Screen
+          name="select-exercises"
+          options={{
+            headerShown: false,
+            presentation: "modal",
+            animation: "slide_from_bottom",
+          }}
+        />
+        <Stack.Screen
+          name="active-workout"
+          options={{
+            headerShown: false,
+            presentation: "modal",
+            animation: "slide_from_bottom",
+            gestureEnabled: false,
           }}
         />
       </Stack.Protected>
@@ -70,17 +88,23 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <TasksProvider>
-            <BottomSheetModalProvider>
-              <RootNavigator />
-              <ToastManager
-                position="top"
-                duration={4000}
-                showProgressBar={false}
-                useModal={false}
-              />
-            </BottomSheetModalProvider>
-          </TasksProvider>
+          <TemplatesProvider>
+            <WorkoutsProvider>
+            <TemplateDraftProvider>
+              <WorkoutSessionProvider>
+                <BottomSheetModalProvider>
+                  <RootNavigator />
+                  <ToastManager
+                    position="top"
+                    duration={4000}
+                    showProgressBar={false}
+                    useModal={false}
+                  />
+                </BottomSheetModalProvider>
+              </WorkoutSessionProvider>
+            </TemplateDraftProvider>
+            </WorkoutsProvider>
+          </TemplatesProvider>
         </AuthProvider>
       </QueryClientProvider>
     </GestureHandlerRootView>

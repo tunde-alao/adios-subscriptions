@@ -6,7 +6,8 @@ import { db } from "../db/index.js";
 import { users } from "../db/schema.js";
 import { authMiddleware } from "../middleware/auth.js";
 import type { AppEnv } from "../types.js";
-import tasksRoutes from "./tasks.js";
+import templatesRoutes from "./templates.js";
+import workoutsRoutes from "./workouts.js";
 
 const updateMeSchema = z.object({
   fullName: z.string().trim().min(1).max(200).optional(),
@@ -37,7 +38,8 @@ const api = new Hono<AppEnv>()
 
     return c.json(newUser);
   })
-  .route("/tasks", tasksRoutes)
+  .route("/templates", templatesRoutes)
+  .route("/workouts", workoutsRoutes)
   .get("/me", async (c) => {
     const authUser = c.get("user");
 
